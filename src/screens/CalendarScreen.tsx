@@ -3,12 +3,7 @@ import Sidebar from "../components/layout/Sidebar";
 import { searchIcon } from "../assets/icons";
 import TaskCard from "../components/task/TaskCard";
 import { useTheme } from "../utilities/DarkLightModeProvider";
-import {
-  CircleArrowLeft,
-  CircleArrowRight,
-  MoonIcon,
-  SunIcon,
-} from "lucide-react";
+import { MoonIcon, SunIcon } from "lucide-react";
 import TaskForm from "../components/task/TaskForm";
 import { useTaskContext } from "../utilities/TaskContext";
 import {
@@ -139,9 +134,13 @@ export default function CalendarScreen() {
         <div className="flex flex-col lg:flex-row justify-between items-start w-full mb-[2rem] md:mb-[3.2rem]">
           <div className="flex items-center gap-x-[1.6rem] mb-4 lg:mb-0">
             <p className="text-[2rem] md:text-[3rem] text-black dark:text-white">
-              2 August 2023
+              {new Date().toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
             </p>
-            <div className="flex items-center gap-x-[1rem]">
+            {/* <div className="flex items-center gap-x-[1rem]">
               <CircleArrowLeft
                 color={isDarkMode ? "#ffffff" : "#000000"}
                 className="cursor-pointer"
@@ -150,7 +149,7 @@ export default function CalendarScreen() {
                 color={isDarkMode ? "#ffffff" : "#000000"}
                 className="cursor-pointer"
               />
-            </div>
+            </div> */}
           </div>
           <div className="flex items-center gap-x-4 w-full md:w-auto">
             <button
