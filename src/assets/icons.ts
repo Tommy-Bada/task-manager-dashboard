@@ -11,6 +11,9 @@ import menuBtn from "./icons/menubtn.svg";
 import cheveron from "./icons/cheveron.svg";
 import uploadCloud from "./icons/cloud-icon.svg";
 import deleteIcon from "./icons/delete-icon.svg";
+import searchIcon from "./icons/search-icon.svg";
+import leftIcon from "./icons/left.svg";
+import addIcon from "./icons/add-icon.svg";
 
 export {
   logo,
@@ -26,4 +29,7 @@ export {
   cheveron,
   uploadCloud,
   deleteIcon,
+  searchIcon,
+  leftIcon,
+  addIcon,
 };

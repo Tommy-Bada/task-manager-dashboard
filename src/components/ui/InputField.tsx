@@ -1,4 +1,5 @@
 import { ChangeEventHandler } from "react";
+
 interface InputFieldProps {
   title: string;
   name: string;
@@ -28,22 +29,25 @@ export default function InputField({
 }: InputFieldProps) {
   return (
     <div className="my-[1.2rem]">
-      <label className="text-[1.4rem] text-techiBlack text-[500]">
+      <label className="text-[1.4rem] text-techiBlack dark:text-white font-medium">
         {title}{" "}
-        {optional ? (
-          <span className="text-[1.4rem] text-techiGreyShadeTwo">
+        {optional && (
+          <span className="text-[1.4rem] text-techiGreyShadeTwo dark:text-gray-400">
             (Optional)
           </span>
-        ) : (
-          ""
         )}
       </label>
       <div
-        className={`flex items-center ${
-          error ? "border-techiRed " : "border-techiStrokeGrey"
-        } border-[0.1rem] py-[1rem] px-[1.4rem] rounded-[.8rem] w-[100%] mt-[.6rem]`}
+        className={`flex items-center border-[0.1rem] py-[1rem] px-[1.4rem] rounded-[.8rem] w-full mt-[.6rem]
+          ${
+            error
+              ? "border-techiRed dark:border-red-500"
+              : "border-techiStrokeGrey dark:border-gray-600"
+          }
+          bg-white dark:bg-gray-800 focus-within:border-techiPurple dark:focus-within:border-purple-500
+        `}
       >
-        <div className="w-[100%]">
+        <div className="w-full">
           {textArea ? (
             <textarea
               placeholder={placeholder}
@@ -51,23 +55,27 @@ export default function InputField({
               onChange={onChange}
               onBlur={onBlur}
               value={value}
-              className="text-techiBlack text-[1.4rem] w-[100%] outline-none bg-white h-[9rem]"
+              className="text-techiBlack dark:text-white text-[1.4rem] w-full outline-none 
+                         bg-transparent h-[9rem] placeholder:text-gray-400 dark:placeholder:text-gray-500"
             />
           ) : (
             <input
               type={type}
               placeholder={placeholder}
               name={name}
-              onChange={onChange as ChangeEventHandler<HTMLInputElement>}
+              onChange={onChange}
               onBlur={onBlur}
               value={value}
-              className="text-techiBlack text-[1.4rem] w-[100%] outline-none bg-white "
+              className="text-techiBlack dark:text-white text-[1.4rem] w-full outline-none 
+                         bg-transparent placeholder:text-gray-400 dark:placeholder:text-gray-500"
             />
           )}
         </div>
       </div>
       {error && (
-        <div className="text-[1.2rem] text-techiRed italic">{error}</div>
+        <div className="text-[1.2rem] text-techiRed dark:text-red-400 italic mt-1">
+          {error}
+        </div>
       )}
     </div>
   );

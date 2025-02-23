@@ -1,39 +1,52 @@
 import { useState } from "react";
-import { completedFlag, dueFlag, menuBtn, newFlag } from "../../assets/icons";
+import { completedFlag, dueFlag, newFlag } from "../../assets/icons";
 import Badges from "../badge/badges";
+import { RectangleEllipsis } from "lucide-react";
+import { useTheme } from "../../utilities/DarkLightModeProvider";
+import { useTaskContext } from "../../utilities/TaskContext";
+
 interface TaskProps {
-  priority: "low" | "medium" | "high";
+  id: string;
+  priority: string;
   title: string;
   visual?: string;
   description?: string;
-  status: "completed" | "inProgress" | "toDo";
-  flag: "new" | "overdue" | "done";
+  status: string;
   date: string;
   time: string;
+  onEdit?: (task: TaskProps) => void;
 }
+
 export default function TaskCard({
   priority,
   title,
   visual,
   description,
-  flag,
   date,
   time,
+  id,
+  status,
+  onEdit,
 }: TaskProps) {
   const [popUp, setPopup] = useState<boolean>(false);
+  const { isDarkMode } = useTheme();
+  const { deleteTask } = useTaskContext();
+  const handleEdit = () => {
+    if (onEdit) {
+      onEdit({ id, priority, title, visual, description, status, date, time });
+      setPopup(false);
+    }
+  };
   return (
     <div
-      className="p-[1.6rem] bg-white rounded-[.6rem] w-[30%] relative"
+      className="p-[1.6rem] bg-white dark:bg-gray-700 rounded-[.6rem] w-[100%] relative mb-[1.6rem] shadow-sm"
       onClick={() => setPopup(false)}
     >
       <Badges priority={priority} />
       <div className="mt-[1.6rem] flex justify-between items-center">
-        <p className=" text-techiBlack text-[1.6rem] ">{title}</p>
-        <img
-          src={menuBtn}
-          alt=""
-          height={24}
-          width={24}
+        <p className="text-techiBlack dark:text-white text-[1.6rem]">{title}</p>
+        <RectangleEllipsis
+          color={isDarkMode ? "#ffffff" : "#6f6f6f"}
           onClick={(e) => {
             e.stopPropagation();
             setPopup(!popUp);
@@ -43,43 +56,57 @@ export default function TaskCard({
       </div>
       {popUp && (
         <div
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          className="bg-white w-[6rem] absolute z-50 right-0 rounded-[.6rem] px-[1.2rem] py-[.8rem] flex flex-col gap-y-[.8rem] border mr-[1.6rem] mt-[.8rem]"
+          onClick={(e) => e.stopPropagation()}
+          className="bg-white dark:bg-gray-700 w-[6rem] absolute z-50 right-0 rounded-[.6rem] px-[1.2rem] py-[.8rem] flex flex-col gap-y-[.8rem] border dark:border-gray-600 mr-[1.6rem] mt-[.8rem]"
         >
-          <p className="text-[1.2rem] cursor-pointer text-techiBlackShadeOne">
+          <p
+            className="text-[1.2rem] cursor-pointer text-techiBlackShadeOne dark:text-gray-200"
+            onClick={handleEdit}
+          >
             Edit
           </p>
-          <p className="text-[1.2rem] cursor-pointer text-techiRed">Delete</p>
+          <p
+            className="text-[1.2rem] cursor-pointer text-techiRed"
+            onClick={() => deleteTask(id)}
+          >
+            Delete
+          </p>
         </div>
       )}
-      <div className="w-[100%] mt-[.8rem]">
-        <img
-          src={visual}
-          alt={title}
-          width="100%"
-          height="auto"
-          className="rounded-[.6rem]"
-        />
-      </div>
-      <p className="text-[1.4rem] mt-[.8rem] mb-[1.6rem] text-techiBlackShadeOne">
+
+      {visual && (
+        <div className="w-full mt-[.8rem]">
+          <img
+            src={visual}
+            alt={title}
+            className="w-full h-auto rounded-[.6rem]"
+          />
+        </div>
+      )}
+
+      <p className="text-[1.4rem] mt-[.8rem] mb-[1.6rem] text-techiBlackShadeOne dark:text-gray-300 w-[100%] ">
         {description}
       </p>
+
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-[1.2rem]">
-          {flag === "new" && (
-            <img src={newFlag} alt="flag" width="24" height="24" />
+          {(status === "To-Do" || status === "In Progress") &&
+            (new Date() > new Date(date) ? (
+              <img src={dueFlag} alt="Overdue flag" className="w-6 h-6" />
+            ) : (
+              <img src={newFlag} alt="New flag" className="w-6 h-6" />
+            ))}
+
+          {status === "Completed" && (
+            <img src={completedFlag} alt="Completed flag" className="w-6 h-6" />
           )}
-          {flag === "overdue" && (
-            <img src={dueFlag} alt="flag" width="24" height="24" />
-          )}
-          {flag === "done" && (
-            <img src={completedFlag} alt="flag" width="24" height="24" />
-          )}
-          <p className="text-techiGreyShadeOne text-[1.2rem]">{date}</p>
+          <p className="text-techiGreyShadeOne dark:text-gray-400 text-[1.2rem]">
+            {date}
+          </p>
         </div>
-        <p className="text-techiGreyShadeTwo text-[1.2rem]">{time}</p>
+        <p className="text-techiGreyShadeTwo dark:text-gray-500 text-[1.2rem]">
+          {time}
+        </p>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 export interface BadgeProps {
-  priority: "low" | "medium" | "high";
+  priority: string;
   width?: boolean;
 }
 export default function Badges({ priority, width }: BadgeProps) {

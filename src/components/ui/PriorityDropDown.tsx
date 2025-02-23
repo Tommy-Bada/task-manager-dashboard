@@ -31,14 +31,14 @@ export default function PrioritySelect({
 
   return (
     <div className="relative w-[100%] mt-[.6rem]" ref={selectRef}>
-      <button
-        className="w-full p-[1.2rem] text-left bg-white border rounded-lg flex items-center justify-between hover:border-gray-400 focus:outline-none"
+      <div
+        className="w-full p-[1.2rem] text-left bg-white dark:bg-gray-800 border rounded-lg flex items-center justify-between hover:border-gray-400 focus:outline-none focus-within:border-techiPurple dark:focus-within:border-purple-500"
         onClick={() => setIsOpen(!isOpen)}
       >
         {value ? (
           <Badges priority={value as BadgeProps["priority"]} />
         ) : (
-          <span className="text-techiGrey text-[1.4rem]">
+          <span className="text-gray-400 dark:text-gray-500 text-[1.4rem]">
             Select the priority of the task
           </span>
         )}
@@ -51,7 +51,7 @@ export default function PrioritySelect({
             isOpen ? "transform rotate-180" : ""
           }`}
         />
-      </button>
+      </div>
       {isOpen && (
         <div className="absolute w-[50%] mt-1 right-0 bg-white border rounded-lg shadow-lg z-10">
           {priorities.map((priority) => (
