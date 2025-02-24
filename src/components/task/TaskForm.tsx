@@ -10,6 +10,7 @@ import { CloudUpload, X } from "lucide-react";
 import { useTheme } from "../../utilities/DarkLightModeProvider";
 import { useTaskContext, Task } from "../../utilities/TaskContext";
 
+const MAX_FILE_SIZE = 2 * 1024 * 1024;
 interface FileWithPreview extends File {
   preview?: string;
 }
@@ -166,10 +167,17 @@ export default function TaskForm({
       selectedFile &&
       (selectedFile.type === "image/jpeg" || selectedFile.type === "image/png")
     ) {
+      if (selectedFile.size > MAX_FILE_SIZE) {
+        toast.error("File size exceeded. Maximum size is 2MB.");
+        return;
+      }
+
       const preview = await createPreview(selectedFile);
       const fileWithPreview = Object.assign(selectedFile, { preview });
       setFile(fileWithPreview);
       simulateUpload(selectedFile);
+    } else {
+      toast.error("File format not supported");
     }
   };
 
@@ -180,6 +188,10 @@ export default function TaskForm({
 
     const droppedFile = e.dataTransfer.files[0];
     if (droppedFile) {
+      if (droppedFile.size > MAX_FILE_SIZE) {
+        toast.error("File size exceeded. Maximum size is 2MB.");
+        return;
+      }
       await handleFile(droppedFile);
     }
   }, []);
@@ -335,7 +347,7 @@ export default function TaskForm({
                               Click to upload{" "}
                             </span>
                             or drag and drop <br />
-                            PNG or JPG
+                            PNG or JPG(max 2MB)
                           </label>
                           <input
                             type="file"
