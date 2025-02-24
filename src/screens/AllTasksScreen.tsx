@@ -21,7 +21,7 @@ import DraggableTaskList from "../components/task/DraggableTaskList";
 
 const TASK_STATUS = ["To-Do", "In Progress", "Completed"] as const;
 
-export default function CalendarScreen() {
+export default function AllTasksScreen() {
   const [searchValue, setSearchValue] = useState("");
   const { isDarkMode, toggleTheme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,6 +35,7 @@ export default function CalendarScreen() {
       activationConstraint: {
         distance: 8,
       },
+      enabled: window.innerWidth >= 768,
     })
   );
 
@@ -133,7 +134,7 @@ export default function CalendarScreen() {
       <div className="w-full md:w-[70%] lg:w-[80%] px-4 md:px-[3.2rem] pt-[2rem] md:pt-[4rem]">
         <div className="flex flex-col lg:flex-row justify-between items-start w-full mb-[2rem] md:mb-[3.2rem]">
           <div className="flex items-center gap-x-[1.6rem] mb-4 lg:mb-0">
-            <p className="text-[2rem] md:text-[3rem] text-black dark:text-white">
+            <p className="text-[2rem] md:text-[3rem] text-black dark:text-white !font-['SF_Pro_Display'] font-[500]">
               {new Date().toLocaleDateString("en-US", {
                 day: "numeric",
                 month: "long",

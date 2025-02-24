@@ -84,7 +84,6 @@ export default function TaskForm({
   const { addTask, updateTask } = useTaskContext();
 
   const isEditing = Boolean(initialTask);
-  console.log(initialTask);
 
   const getInitialValues = (): FormValues => {
     if (initialTask) {
@@ -196,7 +195,6 @@ export default function TaskForm({
     setFile(null);
     setUploadProgress(0);
   };
-  console.log(isEditing);
 
   if (!isOpen) return null;
 

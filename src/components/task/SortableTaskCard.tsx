@@ -12,6 +12,7 @@ interface SortableTaskCardProps {
   date: string;
   time: string;
   onEdit?: (task: SortableTaskCardProps) => void;
+  disabled?: boolean;
 }
 
 export default function SortableTaskCard(props: SortableTaskCardProps) {
@@ -22,14 +23,19 @@ export default function SortableTaskCard(props: SortableTaskCardProps) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: props.id });
+  } = useSortable({
+    id: props.id,
+    disabled: props.disabled,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
   };
+
   const { onEdit, ...taskProps } = props;
+
   return (
     <div
       ref={setNodeRef}

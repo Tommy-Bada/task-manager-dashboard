@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import toast from "react-hot-toast";
 
 export interface Task {
   id: string;
@@ -50,6 +51,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const deleteTask = (id: string) => {
+    toast.success("Task deleted successfully");
     setTasks((prev) => {
       const updatedTasks = prev.filter((task) => task.id !== id);
       localStorage.setItem("tasks", JSON.stringify(updatedTasks));

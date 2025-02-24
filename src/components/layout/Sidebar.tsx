@@ -1,48 +1,44 @@
-import { LayoutGrid, X } from "lucide-react";
-import {
-  inboxIcon,
-  logo,
-  noteIcon,
-  settingsIcon,
-  todoListIcon,
-} from "../../assets/icons";
+import { ListTodo, ClipboardList, Timer, CheckCircle, X } from "lucide-react";
 import { useTheme } from "../../utilities/DarkLightModeProvider";
-import { useLocation } from "react-router-dom";
-export default function Sidebar({ onClose }: { onClose: () => void }) {
+import { useLocation, useNavigate } from "react-router-dom";
+import { logo } from "../../assets/icons";
+
+interface SidebarProps {
+  onClose: () => void;
+}
+
+export default function Sidebar({ onClose }: SidebarProps) {
   const location = useLocation();
-  const navitems = [
+  const { isDarkMode } = useTheme();
+
+  const navItems = [
     {
-      name: "CALENDAR",
-      icon: "",
+      name: "ALL TASKS",
+      Icon: ListTodo,
       route: "/",
       isActive: location.pathname === "/",
     },
     {
-      name: "INBOX",
-      icon: inboxIcon,
-      route: "/inbox",
-      isActive: location.pathname === "/inbox",
+      name: "TO DO",
+      Icon: ClipboardList,
+      route: "/to-do",
+      isActive: location.pathname === "/to-do",
     },
     {
-      name: "NOTES",
-      icon: noteIcon,
-      route: "/notes",
-      isActive: location.pathname === "/notes",
+      name: "IN PROGRESS",
+      Icon: Timer,
+      route: "/in-progress",
+      isActive: location.pathname === "/in-progress",
     },
     {
-      name: "TO DO LIST",
-      icon: todoListIcon,
-      route: "/to-do-list",
-      isActive: location.pathname === "/to-do-list",
-    },
-    {
-      name: "SETTINGS",
-      icon: settingsIcon,
-      route: "/settings",
-      isActive: location.pathname === "/settings",
+      name: "COMPLETED",
+      Icon: CheckCircle,
+      route: "/completed",
+      isActive: location.pathname === "/completed",
     },
   ];
-  const { isDarkMode } = useTheme();
+  const navigate = useNavigate();
+
   return (
     <div className="w-full bg-white dark:bg-gray-900 h-full flex flex-col">
       <div className="w-[100%] flex justify-end">
@@ -70,37 +66,41 @@ export default function Sidebar({ onClose }: { onClose: () => void }) {
           />
         )}
       </div>
+
       <nav className="flex-1">
-        {navitems.map((item) => (
+        {navItems.map(({ name, Icon, isActive, route }) => (
           <div
-            key={item.name}
+            key={name}
             className={`${
-              item.isActive
+              isActive
                 ? "bg-techiPurpleLight dark:bg-gray-800 border-r-[.7rem] border-r-techiPurple "
                 : ""
             } p-4 md:p-[2rem] cursor-pointer flex items-center gap-x-[2rem] hover:bg-gray-100 dark:hover:bg-gray-800`}
             onClick={() => {
               if (onClose) onClose();
+              navigate(route);
             }}
           >
             <div className="w-8 md:w-[3.6rem]">
-              {item.name === "CALENDAR" ? (
-                <LayoutGrid
-                  color={item.isActive ? "#4F35F3" : "#65676D"}
-                  className="w-full h-auto"
-                />
-              ) : (
-                <img src={item.icon} alt="" className="w-full h-auto" />
-              )}
+              <Icon
+                size={36}
+                className={`    className="w-full h-auto"
+                ${
+                  isActive
+                    ? "text-techiPurple"
+                    : "text-techiGrey dark:text-gray-300"
+                }
+              `}
+              />
             </div>
             <p
-              className={`text-[1.6rem] md:text-[1.8rem]  font-[400]  ${
-                item.isActive
+              className={`text-[1.6rem] md:text-[1.8rem]  font-[500] !font-['SF_Pro_Display'] ${
+                isActive
                   ? "text-techiPurple"
                   : "text-techiGrey dark:text-gray-300"
               }`}
             >
-              {item.name}
+              {name}
             </p>
           </div>
         ))}
