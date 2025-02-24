@@ -62,7 +62,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
           <img
             src={logo}
             alt="techinover logo"
-            className="w-full h-auto max-w-[200px] mx-auto md:mx-0"
+            className="w-full h-auto max-w-[200px] max-sm:mb-[1rem] sm:mx-auto md:mx-0"
           />
         )}
       </div>
