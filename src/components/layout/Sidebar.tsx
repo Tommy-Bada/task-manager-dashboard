@@ -75,16 +75,15 @@ export default function Sidebar({ onClose }: SidebarProps) {
               isActive
                 ? "bg-techiPurpleLight dark:bg-gray-800 border-r-[.7rem] border-r-techiPurple "
                 : ""
-            } p-4 md:p-[2rem] cursor-pointer flex items-center gap-x-[2rem] hover:bg-gray-100 dark:hover:bg-gray-800`}
+            } p-4 md:p-[2rem] cursor-pointer flex items-center gap-x-[2rem] hover:bg-gray-100 dark:hover:bg-gray-800 mb-[2rem]`}
             onClick={() => {
               if (onClose) onClose();
               navigate(route);
             }}
           >
-            <div className="w-8 md:w-[3.6rem]">
+            <div className="w-[2rem] md:w-[4rem]">
               <Icon
-                size={36}
-                className={`    className="w-full h-auto"
+                className={`w-full h-auto
                 ${
                   isActive
                     ? "text-techiPurple"
